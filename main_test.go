@@ -1,39 +1,39 @@
 package main
 
-import "testing"
+import (
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
 
-func TestShortestPath(t *testing.T) {
-	g := NewGraph()
-	g.AddNode("A", nil)
-	g.AddNode("B", nil)
-	g.AddNode("C", nil)
-	g.AddEdge("A", "B")
-	g.AddEdge("B", "C")
+func TestHealth(t *testing.T) {
+	req, _ := http.NewRequest("GET", "/health", nil)
+	rr := httptest.NewRecorder()
+	handleHealth(rr, req)
 
-	path := g.ShortestPath("A", "C")
-	if len(path) != 3 {
-		t.Errorf("expected path length 3, got %d: %v", len(path), path)
+	if rr.Code != http.StatusOK {
+		t.Errorf("Expected 200 OK, got %d", rr.Code)
+	}
+
+	var resp map[string]interface{}
+	json.NewDecoder(rr.Body).Decode(&resp)
+	if resp["status"] != "ok" {
+		t.Errorf("Expected status 'ok', got %v", resp["status"])
 	}
 }
 
-func TestNoPath(t *testing.T) {
-	g := NewGraph()
-	g.AddNode("X", nil)
-	g.AddNode("Y", nil)
+func TestProcess(t *testing.T) {
+	initial := state.Processed
+	req, _ := http.NewRequest("POST", "/process", nil)
+	rr := httptest.NewRecorder()
+	handleProcess(rr, req)
 
-	path := g.ShortestPath("X", "Y")
-	if path != nil {
-		t.Errorf("expected nil path, got %v", path)
+	if rr.Code != http.StatusAccepted {
+		t.Errorf("Expected 202 Accepted, got %d", rr.Code)
 	}
-}
 
-func TestNeighbors(t *testing.T) {
-	g := NewGraph()
-	g.AddEdge("A", "B")
-	g.AddEdge("A", "C")
-
-	n := g.Neighbors("A")
-	if len(n) != 2 {
-		t.Errorf("expected 2 neighbors, got %d", len(n))
+	if state.Processed != initial+1 {
+		t.Errorf("Expected state to increment")
 	}
 }
