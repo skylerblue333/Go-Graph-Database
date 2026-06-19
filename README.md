@@ -2,16 +2,11 @@
 
 ![CI](https://github.com/skylerblue333/Go-Graph-Database/workflows/CI/badge.svg)
 
-High-performance Go service for database operations.
-
-## Features
-- Highly concurrent `sync.RWMutex` state management
-- Standard library HTTP routing
-- Dockerized multi-stage build
-- 100% Test Coverage
+In-memory graph database with concurrent traversal built with Go.
 
 ## Quick Start
 ```bash
 go test ./...
-go run main.go
+go build -o app ./cmd/server
+./app
 ```
