@@ -1,1 +1,10 @@
-# Go-Graph-Database\n\n## Overview\nEnterprise-grade graph database implementation in Go.\n\n## Quick Start (1-Click Build)\n\n```bash\ngit clone https://github.com/skylerblue333/Go-Graph-Database.git\ncd Go-Graph-Database\n# Build instructions depend on the language\n```\n
+# Go-Graph-Database
+
+In-memory graph database with BFS shortest path, node properties, and REST API.
+
+## Quick Start
+
+```bash
+go test ./...
+go run main.go
+```

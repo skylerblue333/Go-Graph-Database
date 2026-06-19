@@ -1,1 +1,3 @@
-module go-graph-database\n\ngo 1.21\n
+module github.com/skylerblue333/go-graph-database
+
+go 1.21
