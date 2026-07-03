@@ -1,12 +1,34 @@
 # Go-Graph-Database
 
-![CI](https://github.com/skylerblue333/Go-Graph-Database/workflows/CI/badge.svg)
+graph database in Go.
 
-In-memory graph database with concurrent traversal built with Go.
+## 🚀 Overview
+This repository contains a professional implementation of **Go Graph Database**. It is designed with clean code principles and focuses on functionality and reliability.
 
-## Quick Start
+## 🛠️ Tech Stack
+- **Primary Language**: Go
+- **Environment**: Node.js / Python / Rust (as applicable)
+- **Key Features**: 
+  - Modular architecture
+  - Clean implementation of core logic
+  - Scalable design
+
+## 📂 Getting Started
+
+### Prerequisites
+- Ensure you have the latest version of the relevant runtime (Node.js, Python, or Rust) installed.
+
+### Installation
 ```bash
-go test ./...
-go build -o app ./cmd/server
-./app
+git clone https://github.com/skylerblue333/Go-Graph-Database.git
+cd Go-Graph-Database
 ```
+
+### Usage
+Follow the specific language conventions to run the project (e.g., `npm install`, `cargo build`, or `pip install -r requirements.txt`).
+
+## 🛡️ License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+Built by [Skyler Blue](https://github.com/skylerblue333)
