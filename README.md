@@ -1,44 +1,44 @@
-<!-- PORTFOLIO PROJECT PROFILE: maintained by the repository owner -->
+# Sky Graph
 
-## Project profile and code-audit snapshot
+A bounded concurrent directed-graph service in Go for relationship and dependency traversal inside the SKYCOIN4444 engineering portfolio.
 
-**What this is:** **Go-Graph-Database** is a public repository described as: “Enterprise-grade graph database implementation in Go. #SkyCoin4444 #AI #Blockchain #DevOps #Innovation” Its dominant language signals are **Go (2 files)**.
+## Implemented
 
-**Why it has value:** Its value is best understood through the implementation evidence currently present in the repository: **17 tracked files** were observed in the shallow audit, with the source structure and existing documentation providing the project’s specific context. This README does not treat a prototype, experiment, or archive as a production system without supporting evidence.
+- Directed edge insertion with duplicate suppression.
+- Configurable maximum node and edge cardinality.
+- Validated node identifiers and self-edge rejection.
+- Deterministic sorted neighbor queries.
+- Deterministic breadth-first shortest-path traversal.
+- Concurrency-safe graph access with `sync.RWMutex`.
+- Health/readiness endpoints and bounded HTTP server timeouts.
+- Race-tested graph and HTTP behavior.
+- `go vet`, `govulncheck`, binary build, and non-root distroless container gates.
 
-**Implementation evidence:** 1 test-related file(s) detected; 3 dependency or package manifest(s) detected; 2 build/CI/infrastructure signal(s) detected; and 3 documentation or governance file(s) detected. Test filenames observed include `cmd/server/main_test.go`. Dependency or package files include `go.mod`, `go.sum`, `package.json`. Build, CI, or infrastructure signals include `Dockerfile`, `.github/workflows/ci.yml`.
+## API
 
-**Current status:** The repository is tracked on the `main` branch. The existing source tree, configuration, tests, workflows, and documentation remain authoritative for supported behavior and maturity. A code audit is not a production-readiness certification, and the presence of a test or workflow file does not establish that all checks pass.
+- `POST /v1/edges?from=a&to=b`
+- `GET /v1/neighbors?node=a`
+- `GET /v1/path?from=a&to=d`
+- `GET /healthz`
+- `GET /readyz`
 
-**Relationship to the wider portfolio:** This repository is one focused component of the broader Skyler Blue Spillers portfolio across AI, software engineering, cloud and DevOps, cybersecurity, blockchain, finance, education, social systems, and creative work. It may provide a service boundary, implementation pattern, experiment, archive, or reusable idea for related repositories. Treat repositories as technical dependencies only where documented interfaces and verified project requirements support that relationship.
+## Run
 
-**Quality and security note:** No obvious secret-like pattern was detected by the limited static scan; this is not a substitute for a security audit. No TODO/FIXME marker was detected in the scanned text files.
+```bash
+go test -race ./...
+go run ./cmd/server
+```
 
----
+## Product boundary
 
-# Go Graph Database
+Status: **engineering beta**.
 
-![GitHub stars](https://img.shields.io/github/stars/skylerblue333/Go-Graph-Database?style=flat-square)
-![GitHub license](https://img.shields.io/github/license/skylerblue333/Go-Graph-Database?style=flat-square)
+Sky Graph is a single-process in-memory graph primitive. It does not claim durable persistence, Cypher/Gremlin compatibility, indexes, ACID transactions, replication, distributed graph processing, tenant isolation, authentication/RBAC, HA, benchmarked capacity, or production deployment.
 
-## 🌟 Overview
-**Go-Graph-Database** is a professional-grade project within the **SkyCoin4444** ecosystem. It focuses on delivering high-value solutions in the domain of **Go**.
+## SKYCOIN4444 integration role
 
-## 🚀 Key Features
-- **Scalable Architecture**: Designed for enterprise-level growth and performance.
-- **Modern Standards**: Implements best practices for clean code and maintainability.
-- **Robust Integration**: Built to work seamlessly within modern cloud-native environments.
+Use for bounded relationship graphs such as dependency traversal, social adjacency prototypes, recommendation inputs, or internal topology lookups. Durable large-scale graph storage belongs in a separately verified persistence layer.
 
-## 🛠️ Technology Stack
-- **Primary Domain**: Go
-- **Ecosystem**: SkyCoin4444 Digital Platform
+## License
 
-## 📂 Structure
-The project is organized into a modular structure to ensure clarity and ease of development.
-
-## 👨‍💻 Author
-**Skyler Blue Spillers**
-*Professional Chess Player & Software Engineer*
-
----
-*Powered by SkyCoin4444*
+See `LICENSE`.
