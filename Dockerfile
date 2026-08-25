@@ -1,12 +1,11 @@
-FROM golang:1.21-alpine AS builder
-WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
-COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -o main ./cmd/server
+FROM golang:1.25-alpine AS builder
+WORKDIR /src
+COPY go.mod ./
+COPY cmd ./cmd
+RUN CGO_ENABLED=0 GOOS=linux go build -trimpath -ldflags='-s -w' -o /out/sky-graph ./cmd/server
 
-FROM alpine:latest
-WORKDIR /app
-COPY --from=builder /app/main .
+FROM gcr.io/distroless/static-debian12:nonroot
+COPY --from=builder /out/sky-graph /sky-graph
+USER 65532:65532
 EXPOSE 8080
-CMD ["./main"]
+ENTRYPOINT ["/sky-graph"]
