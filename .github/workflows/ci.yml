@@ -1,13 +1,32 @@
-name: CI
-on: [push, pull_request]
+name: graph-ci
+
+on:
+  push:
+    branches: [main, "product/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
 jobs:
-  test:
+  verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v6
         with:
-          go-version: '1.21'
-      - run: go mod tidy
-      - run: go test ./... -v
-      - run: go build -o app ./cmd/server
+          go-version: '1.25.x'
+      - name: Format
+        run: test -z "$(gofmt -l .)"
+      - name: Vet
+        run: go vet ./...
+      - name: Race tests
+        run: go test -race ./...
+      - name: Build
+        run: go build -trimpath -o sky-graph ./cmd/server
+      - name: Vulnerability scan
+        run: go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+      - name: Build image
+        run: docker build -t sky-graph:${{ github.sha }} .
+      - name: Verify non-root image
+        run: test "$(docker image inspect sky-graph:${{ github.sha }} --format '{{.Config.User}}')" = "65532:65532"
